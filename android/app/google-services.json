@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "803619212536",
+    "project_id": "flutter-flixids",
+    "storage_bucket": "flutter-flixids.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803619212536:android:ce647ec20d616d770a7f0d",
+        "android_client_info": {
+          "package_name": "com.way.flix_id"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7Hmk4yIQKVKXFF2two0cHNzL2ditnu7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
