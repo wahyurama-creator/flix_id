@@ -1,11 +1,15 @@
-import 'package:flix_id/domain/entity/user/user.dart';
+import 'package:flix_id/presentation/providers/user_data/user_data_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MainPage extends StatelessWidget {
-  final User user;
+class MainPage extends ConsumerStatefulWidget {
+  const MainPage({super.key});
 
-  const MainPage({super.key, required this.user});
+  @override
+  ConsumerState<MainPage> createState() => _MainPageState();
+}
 
+class _MainPageState extends ConsumerState<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +17,12 @@ class MainPage extends StatelessWidget {
         title: const Text('Main Page'),
       ),
       body: Center(
-        child: Text(user.toString()),
+        child: Text(
+          ref.watch(userDataProvider).when(
+              data: (data) => data.toString(),
+              error: (error, stackTrace) => '',
+              loading: () => 'loading'),
+        ),
       ),
     );
   }
