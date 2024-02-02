@@ -5,12 +5,14 @@ class FlixTextFormField extends StatelessWidget {
   final String labelText;
   final TextEditingController? controller;
   final bool obscureText;
+  final TextInputType inputType;
 
   const FlixTextFormField({
     super.key,
     required this.labelText,
     this.controller,
     this.obscureText = false,
+    this.inputType = TextInputType.text,
   });
 
   @override
@@ -32,6 +34,13 @@ class FlixTextFormField extends StatelessWidget {
           ),
         ),
       ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please fill the text field';
+        }
+        return null;
+      },
+      keyboardType: inputType,
     );
   }
 }

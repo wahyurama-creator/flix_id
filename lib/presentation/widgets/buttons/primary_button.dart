@@ -10,7 +10,7 @@ class PrimaryButton extends StatelessWidget {
     super.key,
     required this.title,
     this.width = double.infinity,
-    this.height = 50,
+    this.height = 45,
     this.onPressed,
   });
 

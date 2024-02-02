@@ -8,20 +8,25 @@ import 'package:flix_id/presentation/widgets/text_field/flix_text_form_field.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginPage extends ConsumerWidget {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  LoginPage({super.key});
+class RegisterPage extends ConsumerStatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends ConsumerState<RegisterPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     ref.listen(userDataProvider, (previous, next) {
-      // Check if the user is logged in go to main page
-      if (next is AsyncData) {
-        if (next.value != null) {
-          ref.read(routerProvider).go('/main');
-        }
+      if (next is AsyncData && next.value != null) {
+        ref.read(routerProvider).goNamed('main');
       } else if (next is AsyncError) {
         context.showSnackBar(next.error.toString());
       }
@@ -30,70 +35,91 @@ class LoginPage extends ConsumerWidget {
     return Scaffold(
       body: ListView(
         children: [
-          verticalSpace(100),
+          verticalSpace(50),
           Center(
             child: Image.asset('assets/flix_logo.png', width: 150),
           ),
-          verticalSpace(100),
+          verticalSpace(50),
+          const CircleAvatar(
+            radius: 50,
+            child: Icon(
+              Icons.add_a_photo_rounded,
+              size: 50,
+              color: Colors.white,
+            ),
+          ),
+          verticalSpace(42),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               children: [
                 FlixTextFormField(
+                  labelText: 'Name',
+                  controller: _nameController,
+                ),
+                verticalSpace(16),
+                FlixTextFormField(
                   labelText: 'Email',
                   controller: _emailController,
+                  inputType: TextInputType.emailAddress,
                 ),
-                verticalSpace(24),
+                verticalSpace(16),
                 FlixTextFormField(
                   labelText: 'Password',
                   controller: _passwordController,
                   obscureText: true,
                 ),
-                verticalSpace(12),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Text(
-                      'Forgot Password?',
-                      style: saffronTextStyle.copyWith(fontWeight: bold),
-                    ),
-                  ),
+                verticalSpace(16),
+                FlixTextFormField(
+                  labelText: 'Confirm Password',
+                  controller: _confirmPasswordController,
+                  obscureText: true,
                 ),
                 verticalSpace(32),
                 switch (ref.watch(userDataProvider)) {
                   AsyncData(:final value) => value == null
                       ? PrimaryButton(
-                          title: 'Login',
+                          title: 'Register',
                           onPressed: () {
-                            ref.read(userDataProvider.notifier).login(
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                );
+                            if (_passwordController.text ==
+                                _confirmPasswordController.text) {
+                              ref.read(userDataProvider.notifier).register(
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                    name: _nameController.text,
+                                    photoUrl: null,
+                                  );
+                            } else {
+                              context.showSnackBar('Passwords is not match');
+                            }
                           },
                         )
-                      : const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                  _ => const Center(
-                      child: CircularProgressIndicator(),
+                      : const Center(child: CircularProgressIndicator()),
+                  AsyncLoading() =>
+                    const Center(child: CircularProgressIndicator()),
+                  AsyncError(:final error) => Center(
+                      child: Text(
+                        error.toString(),
+                        style: saffronTextStyle.copyWith(fontWeight: bold),
+                      ),
                     ),
+                  _ => const Center(child: CircularProgressIndicator()),
                 },
-                verticalSpace(180),
+                verticalSpace(42),
                 GestureDetector(
                   onTap: () {
-                    ref.read(routerProvider).go('/register');
+                    ref.read(routerProvider).goNamed('login');
                   },
                   child: RichText(
                     text: TextSpan(
-                      text: 'Don\'t have an account? ',
+                      text: 'Already have an account? ',
                       style: whiteTextStyle.copyWith(
                         fontWeight: light,
                         fontSize: 12,
                       ),
                       children: [
                         TextSpan(
-                          text: 'Register',
+                          text: 'Login',
                           style: saffronTextStyle.copyWith(
                             fontSize: 12,
                             fontWeight: light,
