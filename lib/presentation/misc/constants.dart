@@ -11,11 +11,8 @@ TextStyle whiteTextStyle = GoogleFonts.poppins(
   fontSize: 14,
 );
 
-TextStyle saffronTextStyle = GoogleFonts.poppins(
-    color: saffronColor,
-    fontWeight: regular,
-    fontSize: 14
-);
+TextStyle saffronTextStyle =
+    GoogleFonts.poppins(color: saffronColor, fontWeight: regular, fontSize: 14);
 
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.w500;
