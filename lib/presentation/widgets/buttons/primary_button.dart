@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class PrimaryButton extends StatelessWidget {
   final double width, height;
   final String title;
+  final Color? backgroundColor, textColor;
   final VoidCallback? onPressed;
 
   const PrimaryButton({
@@ -11,6 +12,8 @@ class PrimaryButton extends StatelessWidget {
     required this.title,
     this.width = double.infinity,
     this.height = 45,
+    this.backgroundColor = Colors.black,
+    this.textColor = saffronColor,
     this.onPressed,
   });
 
@@ -22,6 +25,7 @@ class PrimaryButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
+          backgroundColor: backgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -29,6 +33,7 @@ class PrimaryButton extends StatelessWidget {
         child: Text(
           title,
           style: TextStyle(
+            color: textColor,
             fontWeight: bold,
             fontSize: 16,
           ),

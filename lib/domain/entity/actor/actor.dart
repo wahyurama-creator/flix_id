@@ -43,7 +43,7 @@ class Actor {
   factory Actor.fromMap(Map<String, dynamic> map) {
     return Actor(
       name: map['name'] as String,
-      profilePath: map['profile_path'] as String,
+      profilePath: map['profile_path'],
     );
   }
 }

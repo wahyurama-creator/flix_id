@@ -29,19 +29,18 @@ class TmdbMovieRepository implements MovieRepository {
   @override
   Future<ResultWrapper<List<Actor>>> getActors({required int id}) async {
     try {
-      final response = _dio!.get(
+      final response = await _dio!.get(
         '${dotenv.env['TMDB_BASE_URL']}/movie/$id/credits',
         queryParameters: {
           'language': 'en-US',
         },
         options: _options,
       );
-      final result = await response.then((value) {
-        final results =
-            List<Map<String, dynamic>>.from(value.data['cast'] as List);
-        return results.map((e) => Actor.fromMap(e)).toList();
-      });
-      return ResultWrapper.success(result);
+
+      final results = List<Map<String, dynamic>>.from(response.data['cast']);
+
+      return ResultWrapper.success(
+          results.map((e) => Actor.fromMap(e)).toList());
     } on DioException catch (e) {
       return ResultWrapper.failed(e.message.toString());
     }

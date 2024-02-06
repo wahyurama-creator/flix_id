@@ -99,7 +99,7 @@ class MovieDetail {
       posterPath: map['poster_path'] as String,
       backdropPath: map['backdrop_path'] as String,
       runtime: map['runtime'] as int,
-      voteAverage: map['voteAverage'] as double,
+      voteAverage: map['vote_average'] ?? 0.0,
       genres: List<String>.from(
         map['genres'].map((e) => e['name']),
       ),
