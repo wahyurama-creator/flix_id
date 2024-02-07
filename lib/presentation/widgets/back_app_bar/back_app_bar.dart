@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 class BackAppBar extends StatelessWidget {
   final String title;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const BackAppBar({
     super.key,
     required this.title,
-    required this.onTap,
+    this.onTap,
   });
 
   @override
@@ -18,11 +18,7 @@ class BackAppBar extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: onTap,
-          child: const SizedBox(
-            width: 40,
-            height: 40,
-            child: Icon(Icons.keyboard_arrow_left, size: 40),
-          ),
+          child: const Icon(Icons.keyboard_arrow_left, size: 40),
         ),
         horizontalSpace(20),
         SizedBox(

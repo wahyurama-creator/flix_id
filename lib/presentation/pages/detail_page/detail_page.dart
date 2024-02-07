@@ -1,4 +1,5 @@
 import 'package:flix_id/domain/entity/movie/movie.dart';
+import 'package:flix_id/domain/entity/movie/movie_detail.dart';
 import 'package:flix_id/presentation/misc/constants.dart';
 import 'package:flix_id/presentation/misc/methods.dart';
 import 'package:flix_id/presentation/pages/detail_page/methods/background.dart';
@@ -24,7 +25,7 @@ class DetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var movieDetail = ref.watch(movieDetailProvider(movie: movie));
+    var asyncMovieDetail = ref.watch(movieDetailProvider(movie: movie));
 
     return Scaffold(
       body: Stack(
@@ -45,25 +46,18 @@ class DetailPage extends ConsumerWidget {
                     ),
                     verticalSpace(24),
                     NetworkImageCard(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width - 48,
-                      height: (MediaQuery
-                          .of(context)
-                          .size
-                          .width - 48) * 0.6,
+                      width: MediaQuery.of(context).size.width - 48,
+                      height: (MediaQuery.of(context).size.width - 48) * 0.6,
                       borderRadius: 15,
-                      imageUrl: movieDetail.valueOrNull != null
+                      imageUrl: asyncMovieDetail.valueOrNull != null
                           ? '${dotenv.env['TMDB_IMG_BASE_URL']}'
-                          '${movieDetail.valueOrNull?.backdropPath
-                          ?? movie.posterPath}'
+                              '${asyncMovieDetail.valueOrNull?.backdropPath ?? movie.posterPath}'
                           : null,
                       fit: BoxFit.cover,
                     ),
                     verticalSpace(24),
                     ...movieShortInfo(
-                      asyncMovieDetail: movieDetail,
+                      asyncMovieDetail: asyncMovieDetail,
                       context: context,
                     ),
                     verticalSpace(20),
@@ -78,13 +72,13 @@ class DetailPage extends ConsumerWidget {
                         ),
                         horizontalSpace(5),
                         Text(
-                          (movieDetail.valueOrNull?.voteAverage ?? 0)
+                          (asyncMovieDetail.valueOrNull?.voteAverage ?? 0)
                               .toStringAsFixed(1),
                         ),
                       ],
                     ),
                     verticalSpace(20),
-                    ...movieOverview(movieDetail),
+                    ...movieOverview(asyncMovieDetail),
                     verticalSpace(40),
                   ],
                 ),
@@ -92,12 +86,21 @@ class DetailPage extends ConsumerWidget {
               ...castAndCrew(movie: movie, ref: ref),
               Padding(
                 padding:
-                const EdgeInsets.symmetric(vertical: 40, horizontal: 24),
+                    const EdgeInsets.symmetric(vertical: 40, horizontal: 24),
                 child: PrimaryButton(
                   title: 'Book this Movie',
                   backgroundColor: saffronColor,
                   textColor: backgroundColor,
-                  onPressed: () {},
+                  onPressed: () {
+                    MovieDetail? movieDetail = asyncMovieDetail.valueOrNull;
+
+                    if (movieDetail != null) {
+                      ref.read(routerProvider).pushNamed(
+                            'time-booking',
+                            extra: movieDetail,
+                          );
+                    }
+                  },
                 ),
               ),
             ],
