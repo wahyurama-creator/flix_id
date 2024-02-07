@@ -23,7 +23,7 @@ class BackAppBar extends StatelessWidget {
         horizontalSpace(20),
         SizedBox(
           // Minus 60 for the back button and 40 for the padding
-          width: MediaQuery.of(context).size.width - 60 - 40,
+          width: MediaQuery.of(context).size.width - 60 - 88,
           child: Text(
             title,
             style: whiteTextStyle.copyWith(
