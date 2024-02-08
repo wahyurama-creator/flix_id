@@ -7,7 +7,7 @@ import 'package:flix_id/presentation/extensions/extensions.dart';
 import 'package:flix_id/presentation/extensions/int_extensions.dart';
 import 'package:flix_id/presentation/misc/constants.dart';
 import 'package:flix_id/presentation/misc/methods.dart';
-import 'package:flix_id/presentation/pages/booking_confimation_page/methods/row_item_detail.dart';
+import 'package:flix_id/presentation/pages/booking_confirmation_page/methods/row_item_detail.dart';
 import 'package:flix_id/presentation/providers/router/router_provider.dart';
 import 'package:flix_id/presentation/providers/transaction_data/transaction_data_provider.dart';
 import 'package:flix_id/presentation/providers/usecase/transaction/create_transaction/create_transaction_provider.dart';

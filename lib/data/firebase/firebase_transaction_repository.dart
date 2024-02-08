@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import 'package:flix_id/data/firebase/firebase_user_repository.dart';
 import 'package:flix_id/data/repository/transaction/transaction_repository.dart';
@@ -66,7 +64,7 @@ class FirebaseTransactionRepository implements TransactionRepository {
   Future<ResultWrapper<List<Transaction>>> getUserTransactions({
     required String uid,
   }) async {
-    firestore.CollectionReference transactions =
+    firestore.CollectionReference<Map<String, dynamic>> transactions =
         _firebaseFirestore.collection('transactions');
 
     try {
@@ -74,10 +72,8 @@ class FirebaseTransactionRepository implements TransactionRepository {
 
       // Check if the user has any transaction data
       if (result.docs.isNotEmpty) {
-        List<Transaction> transactions = result.docs
-            .map((e) => Transaction.fromMap(e.data() as Map<String, dynamic>))
-            .toList();
-        log('transactions: $transactions');
+        List<Transaction> transactions =
+            result.docs.map((e) => Transaction.fromMap(e.data())).toList();
 
         return ResultWrapper.success(transactions);
       } else {
