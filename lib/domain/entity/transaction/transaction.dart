@@ -124,15 +124,17 @@ class Transaction {
 
   factory Transaction.fromMap(Map<String, dynamic> map) {
     return Transaction(
-      id: map['id'] as String,
+      id: map['id'] as String?,
       uid: map['uid'] as String,
-      transactionTime: map['transactionTime'] as int,
-      transactionImage: map['transactionImage'] as String,
+      transactionTime: map['transactionTime'] as int?,
+      transactionImage: map['transactionImage'] as String?,
       title: map['title'] as String,
-      seats: map['seats'] as List<String>,
-      theaterName: map['theaterName'] as String,
-      watchingTime: map['watchingTime'] as int,
-      ticketAmount: map['ticketAmount'] as int,
+      seats:
+          (map['seats'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              [],
+      theaterName: map['theaterName'] as String?,
+      watchingTime: map['watchingTime'] as int?,
+      ticketAmount: map['ticketAmount'] as int?,
       ticketPrice: map['ticketPrice'] as int,
       adminFee: map['adminFee'] as int,
       total: map['total'] as int,

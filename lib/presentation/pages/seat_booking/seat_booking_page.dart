@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flix_id/domain/entity/movie/movie_detail.dart';
 import 'package:flix_id/domain/entity/transaction/transaction.dart';
+import 'package:flix_id/presentation/extensions/extensions.dart';
 import 'package:flix_id/presentation/misc/constants.dart';
 import 'package:flix_id/presentation/misc/methods.dart';
 import 'package:flix_id/presentation/pages/seat_booking/methods/legend.dart';
@@ -47,7 +48,7 @@ class _SeatBookingPageState extends ConsumerState<SeatBookingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final (transaction, movieDetail) = widget.transactionDetail;
+    final (movieDetail, transaction) = widget.transactionDetail;
 
     return Scaffold(
       body: ListView(
@@ -94,7 +95,23 @@ class _SeatBookingPageState extends ConsumerState<SeatBookingPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: PrimaryButton(
                     title: 'Next',
-                    onPressed: () {},
+                    onPressed: () {
+                      if (selectedSeat.isNotEmpty) {
+                        var updatedTransaction = transaction.copyWith(
+                          seats:
+                              (selectedSeat..sort()).map((e) => '$e').toList(),
+                          ticketAmount: selectedSeat.length,
+                          ticketPrice: 25000,
+                        );
+
+                        ref.read(routerProvider).pushNamed(
+                          'booking-confirmation',
+                          extra: (movieDetail, updatedTransaction),
+                        );
+                      } else {
+                        context.showSnackBar('Please select at least one seat');
+                      }
+                    },
                   ),
                 ),
                 verticalSpace(40),
