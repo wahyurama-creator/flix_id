@@ -18,15 +18,17 @@ List<Widget> recentTransaction(WidgetRef ref) => [
       ),
       verticalSpace(24),
       ...ref.watch(transactionDataProvider).when(
-            data: (transactions) => (transactions
-                  ..sort((a, b) =>
-                      -a.transactionTime!.compareTo(b.transactionTime!)))
-                .map(
-                  (transaction) => TransactionCard(
-                    transaction: transaction,
-                  ),
-                )
-                .toList(),
+            data: (transactions) => transactions.isEmpty
+                ? []
+                : (transactions
+                      ..sort((a, b) =>
+                          -a.transactionTime!.compareTo(b.transactionTime!)))
+                    .map(
+                      (transaction) => TransactionCard(
+                        transaction: transaction,
+                      ),
+                    )
+                    .toList(),
             error: (error, _) => [],
             loading: () => [const CircularProgressIndicator()],
           ),
