@@ -22,7 +22,7 @@ class ProfilePage extends ConsumerWidget {
           child: Column(
             children: [
               ...userInfo(ref),
-              userSetting(),
+              userSetting(ref),
               verticalSpace(32),
               PrimaryButton(
                 title: 'Logout',

@@ -26,7 +26,7 @@ import '../usecase/auth/login/login_provider.dart';
 
 part 'user_data_provider.g.dart';
 
-@Riverpod()
+@Riverpod(keepAlive: true)
 class UserData extends _$UserData {
   @override
   Future<User?> build() async {

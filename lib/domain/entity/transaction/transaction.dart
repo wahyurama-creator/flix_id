@@ -135,7 +135,7 @@ class Transaction {
       theaterName: map['theaterName'] as String?,
       watchingTime: map['watchingTime'] as int?,
       ticketAmount: map['ticketAmount'] as int?,
-      ticketPrice: map['ticketPrice'] as int,
+      ticketPrice: map['ticketPrice'] as int?,
       adminFee: map['adminFee'] as int,
       total: map['total'] as int,
     );
