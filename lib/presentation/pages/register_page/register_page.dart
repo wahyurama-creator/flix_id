@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flix_id/presentation/extensions/extensions.dart';
 import 'package:flix_id/presentation/misc/constants.dart';
 import 'package:flix_id/presentation/misc/methods.dart';
@@ -7,6 +9,7 @@ import 'package:flix_id/presentation/widgets/buttons/primary_button.dart';
 import 'package:flix_id/presentation/widgets/text_field/flix_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -22,11 +25,16 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
+  XFile? _xFile;
+
   @override
   Widget build(BuildContext context) {
     ref.listen(userDataProvider, (previous, next) {
       if (next is AsyncData && next.value != null) {
-        ref.read(routerProvider).goNamed('main');
+        ref.read(routerProvider).goNamed(
+              'main',
+              extra: _xFile != null ? File(_xFile!.path) : null,
+            );
       } else if (next is AsyncError) {
         context.showSnackBar(next.error.toString());
       }
@@ -40,12 +48,27 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             child: Image.asset('assets/flix_logo.png', width: 150),
           ),
           verticalSpace(50),
-          const CircleAvatar(
-            radius: 50,
-            child: Icon(
-              Icons.add_a_photo_rounded,
-              size: 50,
-              color: Colors.white,
+          GestureDetector(
+            onTap: () async {
+              _xFile =
+                  await ImagePicker().pickImage(source: ImageSource.gallery);
+
+              setState(() {});
+            },
+            child: CircleAvatar(
+              radius: 50,
+              backgroundImage: _xFile != null
+                  ? FileImage(
+                      File(_xFile!.path),
+                    )
+                  : null,
+              child: _xFile != null
+                  ? null
+                  : const Icon(
+                      Icons.add_a_photo_rounded,
+                      size: 50,
+                      color: Colors.white,
+                    ),
             ),
           ),
           verticalSpace(42),
