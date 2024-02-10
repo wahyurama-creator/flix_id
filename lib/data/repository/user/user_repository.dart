@@ -23,4 +23,9 @@ abstract interface class UserRepository {
 
   Future<ResultWrapper<User>> uploadProfilePicture(
       {required User user, required File imageFile});
+
+  Future<ResultWrapper<User>> updateProfile({
+    required User user,
+    required String name,
+  });
 }

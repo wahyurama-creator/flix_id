@@ -6,6 +6,8 @@ import 'package:flix_id/domain/usecase/auth/login/login.dart';
 import 'package:flix_id/domain/usecase/auth/login/login_params.dart';
 import 'package:flix_id/domain/usecase/auth/register/register.dart';
 import 'package:flix_id/domain/usecase/auth/register/register_params.dart';
+import 'package:flix_id/domain/usecase/auth/update_profile/update_profile.dart';
+import 'package:flix_id/domain/usecase/auth/update_profile/update_profile_params.dart';
 import 'package:flix_id/domain/usecase/auth/upload_profile_picture/upload_profile_picture.dart';
 import 'package:flix_id/domain/usecase/auth/upload_profile_picture/upload_profile_picture_params.dart';
 import 'package:flix_id/domain/usecase/transaction/top_up/top_up.dart';
@@ -16,6 +18,7 @@ import 'package:flix_id/presentation/providers/movie/up_coming/up_coming_provide
 import 'package:flix_id/presentation/providers/transaction_data/transaction_data_provider.dart';
 import 'package:flix_id/presentation/providers/usecase/auth/logout/logout_provider.dart';
 import 'package:flix_id/presentation/providers/usecase/auth/register/register_provider.dart';
+import 'package:flix_id/presentation/providers/usecase/auth/update_profile/update_profile_provider.dart';
 import 'package:flix_id/presentation/providers/usecase/auth/upload_profile_picture/upload_profile_picture_provider.dart';
 import 'package:flix_id/presentation/providers/usecase/transaction/top_up/top_up_provider.dart';
 import 'package:flutter/widgets.dart';
@@ -47,7 +50,7 @@ class UserData extends _$UserData {
     Login login = ref.read(loginProvider);
 
     var loginResult =
-        await login(LoginParams(email: email, password: password));
+    await login(LoginParams(email: email, password: password));
 
     switch (loginResult) {
       case ResultSuccess(value: final user):
@@ -127,10 +130,23 @@ class UserData extends _$UserData {
   Future<void> uploadProfilePicture(
       {required User user, required File imageFile}) async {
     UploadProfilePicture uploadProfilePicture =
-        ref.read(uploadProfilePictureProvider);
+    ref.read(uploadProfilePictureProvider);
 
     var result = await uploadProfilePicture(
       UploadProfilePictureParams(imageFile: imageFile, user: user),
+    );
+
+    if (result case ResultSuccess(value: final user)) {
+      state = AsyncData(user);
+    }
+  }
+
+  Future<void> updateUserProfile(
+      {required User user, required String name,}) async {
+    UpdateProfile updateProfile = ref.read(updateProfileProvider);
+
+    var result = await updateProfile(
+        UpdateProfileParams(user: user, name: name)
     );
 
     if (result case ResultSuccess(value: final user)) {

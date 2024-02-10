@@ -20,32 +20,37 @@ class DummyUserRepository implements UserRepository {
   Future<ResultWrapper<User>> getUser({required String uid}) async {
     await Future.delayed(const Duration(seconds: 1));
     return ResultWrapper.success(
-        User(uid: uid, email: 'dummy@mail.com', name: 'Dummy'));
+      User(uid: uid, email: 'dummy@mail.com', name: 'Dummy'),
+    );
   }
 
   @override
   Future<ResultWrapper<int>> getUserBalance({required String uid}) {
-    // TODO: implement getUserBalance
     throw UnimplementedError();
   }
 
   @override
   Future<ResultWrapper<User>> updateUser({required User user}) {
-    // TODO: implement updateUser
     throw UnimplementedError();
   }
 
   @override
   Future<ResultWrapper<User>> updateUserBalance(
       {required String uid, required int balance}) {
-    // TODO: implement updateUserBalance
     throw UnimplementedError();
   }
 
   @override
   Future<ResultWrapper<User>> uploadProfilePicture(
       {required User user, required File imageFile}) {
-    // TODO: implement uploadProfilePicture
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ResultWrapper<User>> updateProfile({
+    required User user,
+    required String name,
+  }) {
     throw UnimplementedError();
   }
 }

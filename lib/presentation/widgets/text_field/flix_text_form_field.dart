@@ -20,6 +20,9 @@ class FlixTextFormField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
+      style: whiteTextStyle.copyWith(
+        fontSize: 13,
+      ),
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: whiteTextStyle.copyWith(fontSize: 14),

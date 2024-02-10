@@ -8,9 +8,14 @@ Widget userSetting(WidgetRef ref) => Column(
       children: [
         const Divider(),
         verticalSpace(8),
-        profileItem('Update Profile'),
-        profileItem('My Wallet',
-            onTap: () => ref.read(routerProvider).pushNamed('wallet')),
+        profileItem(
+          'Update Profile',
+          onTap: () => ref.read(routerProvider).pushNamed('update-profile'),
+        ),
+        profileItem(
+          'My Wallet',
+          onTap: () => ref.read(routerProvider).pushNamed('wallet'),
+        ),
         profileItem('Change Password'),
         profileItem('Change Language'),
         verticalSpace(8),

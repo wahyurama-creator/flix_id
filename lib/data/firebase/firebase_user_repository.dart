@@ -113,8 +113,7 @@ class FirebaseUserRepository implements UserRepository {
               'Failed to retrieve update user balance');
         }
       } else {
-        return const ResultWrapper.failed(
-            'Failed to updated user balance');
+        return const ResultWrapper.failed('Failed to updated user balance');
       }
     } else {
       return const ResultWrapper.failed('User not found');
@@ -144,6 +143,26 @@ class FirebaseUserRepository implements UserRepository {
       }
     } catch (e) {
       return ResultWrapper.failed('Failed to upload profile picture: $e');
+    }
+  }
+
+  @override
+  Future<ResultWrapper<User>> updateProfile({
+    required User user,
+    required String name,
+  }) async {
+    try {
+      var updateResult = await updateUser(
+        user: user.copyWith(name: name),
+      );
+
+      if (updateResult.isSuccess) {
+        return ResultWrapper.success(updateResult.resultValue!);
+      } else {
+        return ResultWrapper.failed(updateResult.errorMessage.toString());
+      }
+    } catch (e) {
+      return ResultWrapper.failed('Failed to update profile: $e');
     }
   }
 }
