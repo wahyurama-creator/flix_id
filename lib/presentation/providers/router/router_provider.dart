@@ -9,6 +9,7 @@ import 'package:flix_id/presentation/pages/contact_us_page/contact_us_page.dart'
 import 'package:flix_id/presentation/pages/detail_page/detail_page.dart';
 import 'package:flix_id/presentation/pages/login_page/login_page.dart';
 import 'package:flix_id/presentation/pages/main_page/main_page.dart';
+import 'package:flix_id/presentation/pages/privacy_policy_page/privacy_policy_page.dart';
 import 'package:flix_id/presentation/pages/register_page/register_page.dart';
 import 'package:flix_id/presentation/pages/seat_booking/seat_booking_page.dart';
 import 'package:flix_id/presentation/pages/time_booking_page/time_booking_page.dart';
@@ -83,6 +84,11 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(
           path: '/contact-us',
           name: 'contact-us',
           builder: (context, state) => const ContactUsPage(),
+        ),
+        GoRoute(
+          path: '/privacy-policy',
+          name: 'privacy-policy',
+          builder: (context, state) => const PrivacyPolicyPage(),
         ),
       ],
       initialLocation: '/login',
