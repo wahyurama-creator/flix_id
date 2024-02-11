@@ -24,7 +24,10 @@ Widget userSetting(WidgetRef ref) => Column(
         verticalSpace(8),
         const Divider(),
         verticalSpace(8),
-        profileItem('Contact Us'),
+        profileItem(
+          'Contact Us',
+          onTap: () => ref.read(routerProvider).pushNamed('contact-us'),
+        ),
         profileItem('Privacy Policy'),
         profileItem('Terms & Conditions'),
         verticalSpace(8),

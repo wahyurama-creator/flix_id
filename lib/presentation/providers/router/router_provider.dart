@@ -5,6 +5,7 @@ import 'package:flix_id/domain/entity/movie/movie_detail.dart';
 import 'package:flix_id/domain/entity/transaction/transaction.dart';
 import 'package:flix_id/presentation/pages/booking_confirmation_page/booking_confirmation_page.dart';
 import 'package:flix_id/presentation/pages/change_password_page/change_password_page.dart';
+import 'package:flix_id/presentation/pages/contact_us_page/contact_us_page.dart';
 import 'package:flix_id/presentation/pages/detail_page/detail_page.dart';
 import 'package:flix_id/presentation/pages/login_page/login_page.dart';
 import 'package:flix_id/presentation/pages/main_page/main_page.dart';
@@ -77,6 +78,11 @@ Raw<GoRouter> router(RouterRef ref) => GoRouter(
           path: '/change-password',
           name: 'change-password',
           builder: (context, state) => const ChangePasswordPage(),
+        ),
+        GoRoute(
+          path: '/contact-us',
+          name: 'contact-us',
+          builder: (context, state) => const ContactUsPage(),
         ),
       ],
       initialLocation: '/login',
