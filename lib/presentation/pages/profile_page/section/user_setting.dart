@@ -16,7 +16,10 @@ Widget userSetting(WidgetRef ref) => Column(
           'My Wallet',
           onTap: () => ref.read(routerProvider).pushNamed('wallet'),
         ),
-        profileItem('Change Password'),
+        profileItem(
+          'Change Password',
+          onTap: () => ref.read(routerProvider).pushNamed('change-password'),
+        ),
         profileItem('Change Language'),
         verticalSpace(8),
         const Divider(),

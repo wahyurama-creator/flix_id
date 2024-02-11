@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flix_id/data/repository/auth/authentication.dart';
 import 'package:flix_id/domain/wrapper/result_wrapper.dart';
 
@@ -47,6 +50,29 @@ class FirebaseAuthentication implements Authentication {
         password: password,
       );
       return ResultWrapper.success(userCredential.user!.uid);
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      return ResultWrapper.failed(e.message.toString());
+    }
+  }
+
+  @override
+  Future<ResultWrapper<String>> updatePassword(
+      {required String newPassword}) async {
+    try {
+      User? user = _firebaseAuth.currentUser;
+
+      String message = '';
+
+      if (user != null) {
+        await user.updatePassword(newPassword).then((value) {
+          message = 'Password updated successfully';
+        }).catchError((error) {
+          message = error.toString();
+        });
+        return ResultWrapper.success(message);
+      } else {
+        return const ResultWrapper.failed('No user sign in');
+      }
     } on firebase_auth.FirebaseAuthException catch (e) {
       return ResultWrapper.failed(e.message.toString());
     }

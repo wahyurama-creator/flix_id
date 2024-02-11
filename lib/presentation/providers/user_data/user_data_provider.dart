@@ -1,6 +1,9 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flix_id/domain/entity/user/user.dart';
+import 'package:flix_id/domain/usecase/auth/change_password/change_password.dart';
+import 'package:flix_id/domain/usecase/auth/change_password/change_password_params.dart';
 import 'package:flix_id/domain/usecase/auth/get_logged_in_user/get_logged_in_user.dart';
 import 'package:flix_id/domain/usecase/auth/login/login.dart';
 import 'package:flix_id/domain/usecase/auth/login/login_params.dart';
@@ -16,6 +19,7 @@ import 'package:flix_id/domain/wrapper/result_wrapper.dart';
 import 'package:flix_id/presentation/providers/movie/now_playing/now_playing_provider.dart';
 import 'package:flix_id/presentation/providers/movie/up_coming/up_coming_provider.dart';
 import 'package:flix_id/presentation/providers/transaction_data/transaction_data_provider.dart';
+import 'package:flix_id/presentation/providers/usecase/auth/change_password/change_password_provider.dart';
 import 'package:flix_id/presentation/providers/usecase/auth/logout/logout_provider.dart';
 import 'package:flix_id/presentation/providers/usecase/auth/register/register_provider.dart';
 import 'package:flix_id/presentation/providers/usecase/auth/update_profile/update_profile_provider.dart';
@@ -50,7 +54,7 @@ class UserData extends _$UserData {
     Login login = ref.read(loginProvider);
 
     var loginResult =
-    await login(LoginParams(email: email, password: password));
+        await login(LoginParams(email: email, password: password));
 
     switch (loginResult) {
       case ResultSuccess(value: final user):
@@ -130,7 +134,7 @@ class UserData extends _$UserData {
   Future<void> uploadProfilePicture(
       {required User user, required File imageFile}) async {
     UploadProfilePicture uploadProfilePicture =
-    ref.read(uploadProfilePictureProvider);
+        ref.read(uploadProfilePictureProvider);
 
     var result = await uploadProfilePicture(
       UploadProfilePictureParams(imageFile: imageFile, user: user),
@@ -141,13 +145,14 @@ class UserData extends _$UserData {
     }
   }
 
-  Future<void> updateUserProfile(
-      {required User user, required String name,}) async {
+  Future<void> updateUserProfile({
+    required User user,
+    required String name,
+  }) async {
     UpdateProfile updateProfile = ref.read(updateProfileProvider);
 
-    var result = await updateProfile(
-        UpdateProfileParams(user: user, name: name)
-    );
+    var result =
+        await updateProfile(UpdateProfileParams(user: user, name: name));
 
     if (result case ResultSuccess(value: final user)) {
       state = AsyncData(user);
@@ -157,5 +162,25 @@ class UserData extends _$UserData {
   void _getMovies() {
     ref.read(nowPlayingProvider.notifier).getMovies();
     ref.read(upComingProvider.notifier).getMovies();
+  }
+
+  Future<void> changePassword({required String newPassword}) async {
+    // ignore: avoid_manual_providers_as_generated_provider_dependency
+    ChangePassword changePassword = ref.read(changePasswordProvider);
+
+    var result = await changePassword(
+      ChangePasswordParams(newPassword: newPassword),
+    );
+
+    if (result.isSuccess) {
+      log('Password changed');
+      refreshUserData();
+    } else {
+      log('Password change failed');
+      state = AsyncError(
+        FlutterError('Failed to change password'),
+        StackTrace.current,
+      );
+    }
   }
 }

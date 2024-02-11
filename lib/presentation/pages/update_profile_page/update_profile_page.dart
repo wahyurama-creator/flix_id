@@ -64,7 +64,7 @@ class _UpdateProfilePageState extends ConsumerState<UpdateProfilePage> {
                     radius: 50,
                     backgroundImage: user?.photoUrl != null
                         ? NetworkImage(user!.photoUrl!)
-                        : xFile != null || user?.photoUrl == null
+                        : xFile != null && user?.photoUrl == null
                             ? FileImage(
                                 File(xFile!.path),
                               )
